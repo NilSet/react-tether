@@ -32,7 +32,7 @@ type DraggableTargetProps = {
 };
 const DraggableTarget = React.forwardRef(
   (
-    { color, height, id, width, ...props }: DraggableTargetProps,
+    { color, height, id, width, text, ...props }: DraggableTargetProps,
     ref: RefObject<HTMLDivElement>
   ) => (
     <Draggable {...props}>
@@ -42,7 +42,9 @@ const DraggableTarget = React.forwardRef(
         height={height}
         width={width}
         id={id}
-      />
+      >
+        {text}
+      </GrabbableTarget>
     </Draggable>
   )
 );
@@ -165,6 +167,7 @@ export default class Demo extends React.Component {
                   width={100}
                   color="red"
                   bounds="parent"
+                  text={this.state.text}
                   onDrag={() =>
                     this.tether.getTetherInstance() && this.tether.position()
                   }
@@ -174,8 +177,9 @@ export default class Demo extends React.Component {
               renderElement={ref =>
                 this.state.on && (
                   <Tooltip ref={ref} id="WATCH_ME">
-                    <Text>Drag the box around</Text>
-                    <Text>I&apos;ll stay within the outline</Text>
+                    <input
+                      onChange={e => this.setState({ text: e.target.value })}
+                    />
                   </Tooltip>
                 )
               }
